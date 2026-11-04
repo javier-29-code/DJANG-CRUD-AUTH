@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Detalle de tarea{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="h3 mb-3">{{ tarea.title }}</h1>
+
+                {% if tarea.datecompleted %}
+                    <p class="text-success">
+                        Completada el
+                        {{ tarea.datecompleted|date:"d/m/Y H:i" }}
+                    </p>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+                    {% include "form_fields.html" %}
+
+                    <button class="btn btn-primary" type="submit">
+                        Guardar cambios
+                    </button>
+                </form>
+
+                <hr>
+
+                <div class="d-flex flex-wrap gap-2">
+                    {% if not tarea.datecompleted %}
+                        <form action="{% url 'completar_tarea' tarea.id %}"
+                              method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-success" type="submit">
+                                Completar
+                            </button>
+                        </form>
+                    {% endif %}
+
+                    <form action="{% url 'eliminar_tarea' tarea.id %}"
+                          method="post"
+                          onsubmit="return confirm('¿Deseas eliminar esta tarea?');">
+                        {% csrf_token %}
+                        <button class="btn btn-outline-danger" type="submit">
+                            Eliminar
+                        </button>
+                    </form>
+                </div>
+
+                <a class="d-inline-block mt-3" href="{% url 'tareas' %}">
+                    Volver a mis tareas
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Tareas completadas{% endblock %}
+
+{% block content %}
+<h1>Tareas completadas</h1>
+<p class="text-secondary mb-4">
+    Usuario: {{ user.username }}
+</p>
+
+<div class="list-group">
+    {% for tarea in tareas %}
+        <a href="{% url 'detalle_tarea' tarea.id %}"
+           class="list-group-item list-group-item-action p-4">
+
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <h2 class="h5 mb-0">{{ tarea.title }}</h2>
+                <span class="badge text-bg-success">Completada</span>
+            </div>
+
+            <p class="text-secondary mt-2">
+                {{ tarea.description|default:"Sin descripción" }}
+            </p>
+
+            <small class="text-secondary">
+                Completada el {{ tarea.datecompleted|date:"d/m/Y H:i" }}
+            </small>
+        </a>
+    {% empty %}
+        <div class="alert alert-info">
+            Todavía no tienes tareas completadas.
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

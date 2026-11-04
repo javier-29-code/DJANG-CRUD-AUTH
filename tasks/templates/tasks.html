@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Tareas pendientes{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+    <div>
+        <h1>Tareas pendientes</h1>
+        <p class="text-secondary mb-0">
+            Usuario: {{ user.username }}
+        </p>
+    </div>
+
+    <a class="btn btn-primary" href="{% url 'crear_tarea' %}">
+        Crear nueva tarea
+    </a>
+</div>
+
+<div class="list-group">
+    {% for tarea in tareas %}
+        <a href="{% url 'detalle_tarea' tarea.id %}"
+           class="list-group-item list-group-item-action p-4">
+
+            <div class="d-flex flex-wrap align-items-center gap-2">
+                <h2 class="h5 mb-0">{{ tarea.title }}</h2>
+
+                {% if tarea.important %}
+                    <span class="badge text-bg-warning">Importante</span>
+                {% endif %}
+            </div>
+
+            <p class="text-secondary mt-2 mb-0">
+                {{ tarea.description|default:"Sin descripción" }}
+            </p>
+        </a>
+    {% empty %}
+        <div class="alert alert-info">
+            No tienes tareas pendientes. Puedes crear una con el botón superior.
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}

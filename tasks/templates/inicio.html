@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Inicio | Gestor de tareas{% endblock %}
+
+{% block content %}
+<section class="bg-white p-5 rounded shadow-sm">
+    <h1 class="display-5">Organiza tus tareas</h1>
+
+    {% if user.is_authenticated %}
+        <p class="lead">Bienvenido, {{ user.username }}.</p>
+        <p>Consulta tus pendientes y registra lo que necesitas hacer.</p>
+
+        <a class="btn btn-primary" href="{% url 'tareas' %}">
+            Ver mis tareas
+        </a>
+    {% else %}
+        <p class="lead">
+            Crea una cuenta para administrar tus tareas pendientes y completadas.
+        </p>
+
+        <a class="btn btn-primary" href="{% url 'registro' %}">
+            Crear cuenta
+        </a>
+        <a class="btn btn-outline-secondary" href="{% url 'iniciar_sesion' %}">
+            Iniciar sesión
+        </a>
+    {% endif %}
+</section>
+{% endblock %}
